@@ -25,20 +25,26 @@ class NotesCard extends StatelessWidget {
               elevation: 5,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
+                child: Row(
                   children: [
-                    Text(note.title,
-                        textAlign: TextAlign.left,
-                        style: GoogleFonts.roboto(
-                            fontSize: 16, fontWeight: FontWeight.w700)),
-                    Text(note.content,
-                        textAlign: TextAlign.left,
-                        style:
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(note.title,
+                            textAlign: TextAlign.left,
+                            style: GoogleFonts.roboto(
+                                fontSize: 16, fontWeight: FontWeight.w700)),
+                        Text(note.content,
+                            textAlign: TextAlign.left,
+                            style:
                             GoogleFonts.roboto(fontSize: 14, color: Colors.grey)),
+                      ],
+                    ),
+                    const Spacer(),
+                    const Icon(Icons.delete)
                   ],
-                ),
+                )
               ))),
     );
   }
