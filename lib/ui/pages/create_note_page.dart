@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:notas/domain/note.dart';
 import 'package:notas/domain/services/notes_service.dart';
 
-import 'notes_app_bar.dart';
-import 'notes_floating_button.dart';
+import '../components/notes_app_bar.dart';
+import '../components/notes_floating_button.dart';
 
 class NotesAddNote extends StatefulWidget {
   NotesAddNote({super.key});
@@ -29,14 +29,14 @@ class _NotesAddNoteState extends State<NotesAddNote> {
       appBar: const NotesAppBar(title: 'Criar Nota'),
       floatingActionButton: NotesFloatingButton(
         buttonIcon: Icons.save,
-        onPressed: () {
-          save(titleController.text, contentController.text);
+        onPressed: () async {
+          await save(titleController.text, contentController.text);
+          Navigator.pop(context);
         },
       ),
       body: Padding(
           padding: const EdgeInsets.all(16),
-          child: Expanded(
-              child: Column(
+          child: Column(
             children: [
               TextField(
                 controller: titleController,
@@ -51,7 +51,7 @@ class _NotesAddNoteState extends State<NotesAddNote> {
                 ),
               ),
             ],
-          ))),
+          )),
     );
   }
 }

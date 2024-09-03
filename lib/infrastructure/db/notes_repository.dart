@@ -1,32 +1,50 @@
+import 'package:flutter/cupertino.dart';
 import 'package:notas/infrastructure/db/sqlite.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../../domain/note.dart';
 import 'models/NoteModel.dart';
 
-class NotesRepository {
+class NotesRepository extends ChangeNotifier{
+
+  late Database database;
+
+  List<Note> notes = [];
+
+  NotesRepository() {
+    _initRepository();
+  }
+
+  _initRepository() async {
+    await getAll();
+  }
 
   Future close() async {
-    final db = await NotesContext.database;
+    final db = await NotesContext.instance.db;
     await db.close();
   }
 
-  Future<Note> insert(Note note) async {
-    final db = await NotesContext.database;
-    final noteModel = new NoteModel(title: note.title, content: note.content);
+  insert(Note note) async {
+    final db = await NotesContext.instance.db;
+    final noteModel = NoteModel(title: note.title, content: note.content);
     await db.insert(TABLE, noteModel.toMap());
-    return note;
+
+    notes.add(note);
+    notifyListeners();
   }
 
-  Future<List<Note>> getAll() async {
-    final db = await NotesContext.database;
-    List<Map<String, Object?>> maps = await db.query(TABLE,
+  getAll() async {
+    database = await NotesContext.instance.db!;
+
+    List<Map<String, Object?>> maps = await database.query(TABLE,
         columns: [COLUMN_ID, COLUMN_TITLE, COLUMN_CONTENT]);
 
-    List<Note> notes = maps.map((m) {
+    List<Note> noteList = maps.map((m) {
       NoteModel noteModel = NoteModel.fromMap(m);
       return Note(content: noteModel.content, title: noteModel.title);
     }).toList();
 
-    return notes;
+    notes = noteList;
+    notifyListeners();
   }
 }
