@@ -26,7 +26,7 @@ class NotesApp extends StatelessWidget {
         //   backgroundColor: CustomColors.purple
         // ),
       ),
-      home: HomePage(),
+      home: HomePage(),//CreateNotePage(), //
     );
   }
 }

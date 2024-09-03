@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notas/ui/components/notes_add_note.dart';
 import 'package:notas/ui/components/notes_app_bar.dart';
 import 'package:notas/ui/components/notes_empty_state.dart';
 import 'package:notas/ui/components/notes_floating_button.dart';
@@ -23,7 +24,9 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: const NotesAppBar(title: 'Notas'),
-      floatingActionButton: NotesFloatingButton(buttonIcon: icon),
+      floatingActionButton: NotesFloatingButton(buttonIcon: icon, onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => NotesAddNote()));
+      }),
       body: notes.isEmpty ? const Center(child: NotesEmptyState()) : NotesList(notes: notes)
     );
   }
